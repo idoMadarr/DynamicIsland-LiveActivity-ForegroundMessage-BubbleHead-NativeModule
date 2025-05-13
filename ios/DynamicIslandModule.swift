@@ -18,8 +18,8 @@ class DynamicIslandModule: NSObject {
   
   @objc
   func startNotificationActivity() {
-    let initialContentState = NotificationAttributes.ContentState(message: "Hi there!")
-    let activityAttributes = NotificationAttributes(title: "Yo!")
+    let initialContentState = NotificationAttributes.ContentState(message: "נסיעה פעילה - לא לשכוח לסגור את הביטוח בסוף הנסיעה")
+    let activityAttributes = NotificationAttributes(title: "הפניקס צעיר")
     
     do {
       if #available(iOS 16.1, *) {
@@ -34,11 +34,12 @@ class DynamicIslandModule: NSObject {
     }
   }
   
-  @objc
-  func updateNotificationActivity() {
-    let initialContentState = NotificationAttributes.ContentState(message: "Hi there! 2")
+  @objc(updateNotificationActivity:)
+  func updateNotificationActivity(message: String) {
+    let initialContentState = NotificationAttributes.ContentState(message: message)
     if #available(iOS 16.1, *) {
-      let alertConfiguration = AlertConfiguration(title: "Yo! 2", body: "Subtitle 2", sound: .default)
+
+      let alertConfiguration = AlertConfiguration(title: "Notification Update", body: "Notification update.", sound: .default)
       
       Task {
         for activity in Activity<NotificationAttributes>.activities {
@@ -57,7 +58,7 @@ class DynamicIslandModule: NSObject {
     Task {
       if #available(iOS 16.1, *) {
         for activity in Activity<NotificationAttributes>.activities {
-          await activity.end(using: notificationStatus, dismissalPolicy: .default)
+          await activity.end(using: notificationStatus, dismissalPolicy: .immediate)
         }
       } else {
         // Fallback on earlier versions

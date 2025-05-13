@@ -34,9 +34,9 @@ struct ContentView: View {
   var body: some View {
     VStack(alignment: .center) {
       Text(context.attributes.title)
-        .foregroundColor(.white)
+        .foregroundColor(.black)
       Text(context.state.message)
-        .foregroundColor(.white)
+        .foregroundColor(.black)
     }
   }
 }
@@ -74,28 +74,15 @@ struct IconNotifiyView: View {
 struct ActionButtontView: View {
   var body: some View {
     HStack{
-      Link(destination: URL(string: "dynamicisland://subscribe")!, label: {
+      Link(destination: URL(string: "fnx://end_drive")!, label: {
         HStack {
           Image(systemName: "play.square")
             .foregroundColor(.white)
-          Text("Subscribe").font(.caption)
-            .bold().background(.red)
+          Text("סיום נסיעה").font(.caption)
+            .bold().background(.green)
         }
         .padding(EdgeInsets(top: 3, leading: 5, bottom: 3, trailing: 10))
         .background(.green)
-        .clipShape(Capsule())
-        .foregroundColor(.white)
-      })
-      
-      Link(destination: URL(string: "dynamicisland://notification")!, label: {
-        HStack {
-          Image(systemName: "bell.badge")
-            .foregroundColor(.white)
-          Text("Notification").font(.caption)
-            .bold()
-        }
-        .padding(EdgeInsets(top: 3, leading: 5, bottom: 3, trailing: 10))
-        .background(.red)
         .clipShape(Capsule())
         .foregroundColor(.white)
       })

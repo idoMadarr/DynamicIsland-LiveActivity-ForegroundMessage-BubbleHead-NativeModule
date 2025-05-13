@@ -21,7 +21,7 @@ function App(): React.JSX.Element {
   };
 
   const onUpdate = () => {
-    DynamicIslandModule.updateNotificationActivity();
+    DynamicIslandModule.updateNotificationActivity('update from react native!');
   };
 
   const onEnd = () => {
