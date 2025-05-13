@@ -16,10 +16,34 @@ function App(): React.JSX.Element {
     });
   };
 
+  const onStart = () => {
+    DynamicIslandModule.startNotificationActivity();
+  };
+
+  const onUpdate = () => {
+    DynamicIslandModule.updateNotificationActivity();
+  };
+
+  const onEnd = () => {
+    DynamicIslandModule.endNotificationActivity();
+  };
+
   return (
     <View style={styles.screen}>
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <Text>TEST Swift Module</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onStart} style={styles.button}>
+        <Text>Start Activity</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onUpdate} style={styles.button}>
+        <Text>Update Activity</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onEnd} style={styles.button}>
+        <Text>End Activity</Text>
       </TouchableOpacity>
     </View>
   );
@@ -32,6 +56,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
+    height: 30,
+    width: 250,
+    marginVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'green',
   },
 });

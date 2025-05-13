@@ -11,4 +11,9 @@
 
 RCT_EXTERN_METHOD(testFunc: (NSString) title withMessage:(NSString) message withResolve:(RCTPromiseResolveBlock) resolve withReject:(RCTPromiseRejectBlock) reject)
 
+RCT_EXTERN_METHOD(startNotificationActivity)
+RCT_EXTERN_METHOD(updateNotificationActivity)
+RCT_EXTERN_METHOD(endNotificationActivity)
+
+
 @end

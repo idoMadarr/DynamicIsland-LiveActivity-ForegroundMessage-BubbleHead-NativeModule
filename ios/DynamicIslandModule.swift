@@ -5,6 +5,8 @@
 //  Created by Platform Claims on 13/05/2025.
 //
 
+import ActivityKit
+
 @objc(DynamicIslandModule)
 class DynamicIslandModule: NSObject {
   
@@ -12,5 +14,54 @@ class DynamicIslandModule: NSObject {
   func testFunc(title: NSString, message: NSString, resolve:RCTPromiseResolveBlock, reject:RCTPromiseRejectBlock) {
     print("This is a Swift Module!")
     resolve("\(title) --- \(message)")
+  }
+  
+  @objc
+  func startNotificationActivity() {
+    let initialContentState = NotificationAttributes.ContentState(message: "Hi there!")
+    let activityAttributes = NotificationAttributes(title: "Yo!")
+    
+    do {
+      if #available(iOS 16.1, *) {
+        _ = try Activity.request(attributes: activityAttributes, contentState: initialContentState)
+      } else {
+        print("Not support dynamic island")
+        // Fallback on earlier versions
+      }
+      print("Requested a motification Live Activity.")
+    } catch (let error) {
+      print("Error requesting motification delivery Live Activity \(error.localizedDescription).")
+    }
+  }
+  
+  @objc
+  func updateNotificationActivity() {
+    let initialContentState = NotificationAttributes.ContentState(message: "Hi there! 2")
+    if #available(iOS 16.1, *) {
+      let alertConfiguration = AlertConfiguration(title: "Yo! 2", body: "Subtitle 2", sound: .default)
+      
+      Task {
+        for activity in Activity<NotificationAttributes>.activities {
+          await activity.update(using: initialContentState, alertConfiguration: alertConfiguration)
+        }
+      }
+    } else {
+      // Fallback on earlier versions
+    }
+  }
+  
+  @objc
+  func endNotificationActivity() {
+    let notificationStatus = NotificationAttributes.NotificationStatus(message: "Close!")
+    
+    Task {
+      if #available(iOS 16.1, *) {
+        for activity in Activity<NotificationAttributes>.activities {
+          await activity.end(using: notificationStatus, dismissalPolicy: .default)
+        }
+      } else {
+        // Fallback on earlier versions
+      }
+    }
   }
 }
