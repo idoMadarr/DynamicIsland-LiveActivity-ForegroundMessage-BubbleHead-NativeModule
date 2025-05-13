@@ -9,6 +9,6 @@
 
 @interface RCT_EXTERN_MODULE(DynamicIslandModule, NSObject)
 
-RCT_EXTERN_METHOD(testFunc)
+RCT_EXTERN_METHOD(testFunc: (NSString) title withMessage:(NSString) message withResolve:(RCTPromiseResolveBlock) resolve withReject:(RCTPromiseRejectBlock) reject)
 
 @end

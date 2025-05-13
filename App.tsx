@@ -11,7 +11,9 @@ const {DynamicIslandModule} = NativeModules;
 
 function App(): React.JSX.Element {
   const onPress = () => {
-    DynamicIslandModule.testFunc();
+    DynamicIslandModule.testFunc('ido', 'madarr').then((data: any) => {
+      console.log('Return to JS', data);
+    });
   };
 
   return (
