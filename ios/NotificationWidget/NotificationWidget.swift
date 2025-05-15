@@ -24,69 +24,43 @@ struct LockScreenView: View {
   var body: some View {
     VStack(alignment: .center) {
       ContentView(context: context)
-      ActionButtontView()
     }.padding()
+  }
+}
+
+struct HeaderView: View {
+  let context: ActivityViewContext<NotificationAttributes>
+  var body: some View {
+    HStack(alignment: .center) {
+      Link(destination: URL(string: "trips://end_drive")!, label: {
+        HStack(spacing: 5) {
+          Image(systemName: "stop.circle")
+            .foregroundColor(.white)
+          Text("סיום נסיעה").font(.caption)
+            .bold().background(Color(red: 1.0, green: 90/255, blue: 35/255))
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(Color(red: 1.0, green: 90/255, blue: 35/255))
+        .clipShape(Capsule())
+        .foregroundColor(.white)
+      })
+      Spacer()
+      VStack(alignment: .trailing) {
+        Text(context.attributes.title).font(.subheadline).bold()
+        Text(context.state.message).font(.subheadline)
+      }
+      Image(systemName: "car.fill")
+          .font(.system(size: 30))
+          .foregroundColor(Color(red: 1.0, green: 90/255, blue: 35/255))
+    }
   }
 }
 
 struct ContentView: View {
   let context: ActivityViewContext<NotificationAttributes>
   var body: some View {
-    VStack(alignment: .center) {
-      Text(context.attributes.title)
-        .foregroundColor(.black)
-      Text(context.state.message)
-        .foregroundColor(.black)
-    }
-  }
-}
-
-struct IconPlayView: View {
-  var body: some View {
-    HStack {
-      Image(systemName: "play.square")
-        .foregroundColor(.green)
-    }
-  }
-}
-
-
-struct IconCloseView: View {
-  var body: some View {
-    Link(destination: URL(string: "dynamicisland://close")!, label: {
-      HStack(alignment: .center) {
-        Image(systemName: "xmark.circle")
-          .foregroundColor(.red)
-      }
-    })
-  }
-}
-
-struct IconNotifiyView: View {
-  var body: some View {
-    HStack(alignment: .center) {
-      Image(systemName: "bell.badge")
-        .foregroundColor(.red)
-    }
-  }
-}
-
-struct ActionButtontView: View {
-  var body: some View {
-    HStack{
-      Link(destination: URL(string: "fnx://end_drive")!, label: {
-        HStack {
-          Image(systemName: "play.square")
-            .foregroundColor(.white)
-          Text("סיום נסיעה").font(.caption)
-            .bold().background(.green)
-        }
-        .padding(EdgeInsets(top: 3, leading: 5, bottom: 3, trailing: 10))
-        .background(.green)
-        .clipShape(Capsule())
-        .foregroundColor(.white)
-      })
-    }
+    HeaderView(context: context)
   }
 }
 
@@ -103,29 +77,49 @@ struct WidgetNotification: Widget {
       DynamicIsland {
         // Create the expanded view.
         DynamicIslandExpandedRegion(.leading) {
-          
+          // Text("test")
         }
         
         DynamicIslandExpandedRegion(.trailing) {
-          IconCloseView()
+          // Text("test")
         }
         
         DynamicIslandExpandedRegion(.center) {
-          ContentView(context: context)
+          HStack {
+            Text(context.attributes.title).font(.subheadline)
+            Image(systemName: "car.fill")
+                .font(.system(size: 24))
+                .foregroundColor(Color(red: 1.0, green: 90/255, blue: 35/255))
+          }
+          
         }
         
         DynamicIslandExpandedRegion(.bottom) {
-          ActionButtontView()
+          Link(destination: URL(string: "trips://end_drive")!, label: {
+            HStack(spacing: 5) {
+              Image(systemName: "stop.circle")
+                .foregroundColor(.white)
+              Text("סיום נסיעה").font(.caption)
+                .bold().background(Color(red: 1.0, green: 90/255, blue: 35/255))
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 8)
+            .background(Color(red: 1.0, green: 90/255, blue: 35/255))
+            .clipShape(Capsule())
+            .foregroundColor(.white)
+          })
         }
       } compactLeading: {
         // Create the compact leading view.
-        IconPlayView()
+        // Text("test")
+        
       } compactTrailing: {
         // Create the compact trailing view.
-        IconNotifiyView()
+        Image(systemName: "car.fill")
+
       } minimal: {
         // Create the minimal view.
-        IconPlayView()
+        // Text("test")
       }
       .keylineTint(.yellow)
     }
@@ -134,8 +128,7 @@ struct WidgetNotification: Widget {
 
 //struct WidgetNotification_Previews: PreviewProvider {
 //  static var previews: some View {
-//    IconPlayView()
-//      .previewContext(WidgetPreviewContext(family: .systemSmall)).containerBackground(Color.green, for: .widget)
+//    Text("Test")
 //  }
 //}
-//
+

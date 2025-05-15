@@ -18,8 +18,13 @@ class DynamicIslandModule: NSObject {
   
   @objc
   func startNotificationActivity() {
-    let initialContentState = NotificationAttributes.ContentState(message: "נסיעה פעילה - לא לשכוח לסגור את הביטוח בסוף הנסיעה")
-    let activityAttributes = NotificationAttributes(title: "הפניקס צעיר")
+     let formatter = DateFormatter()
+     formatter.locale = Locale(identifier: "he_IL")
+     formatter.dateFormat = "HH:mm"
+     let currentTime = formatter.string(from: Date())
+    
+     let initialContentState = NotificationAttributes.ContentState(message: "נסיעה החלה ב: \(currentTime)")
+    let activityAttributes = NotificationAttributes(title: "נוסעים בכיף")
     
     do {
       if #available(iOS 16.1, *) {

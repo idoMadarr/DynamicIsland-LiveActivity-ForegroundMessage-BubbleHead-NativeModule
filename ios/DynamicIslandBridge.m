@@ -15,5 +15,10 @@ RCT_EXTERN_METHOD(startNotificationActivity)
 RCT_EXTERN_METHOD(updateNotificationActivity: (NSString) message)
 RCT_EXTERN_METHOD(endNotificationActivity)
 
+// Run this module on the Main thread
++ (BOOL)requiresMainQueueSetup
+{
+  return YES;
+}
 
 @end

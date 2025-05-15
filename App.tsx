@@ -1,16 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   NativeModules,
   Text,
   TouchableOpacity,
   View,
+  Linking,
+  Alert,
 } from 'react-native';
 
 const {DynamicIslandModule} = NativeModules;
 
 function App(): React.JSX.Element {
-  const onPress = () => {
+  useEffect(() => {
+    Linking.getInitialURL().then(url => {
+      Alert.alert('Cold Start', JSON.stringify(url));
+    });
+
+    const listener = Linking.addEventListener('url', ({url}) => {
+      Alert.alert('Hot Start', JSON.stringify(url));
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
+
+  const onTest = () => {
     DynamicIslandModule.testFunc('ido', 'madarr').then((data: any) => {
       console.log('Return to JS', data);
     });
@@ -30,7 +46,7 @@ function App(): React.JSX.Element {
 
   return (
     <View style={styles.screen}>
-      <TouchableOpacity onPress={onPress} style={styles.button}>
+      <TouchableOpacity onPress={onTest} style={styles.button}>
         <Text>TEST Swift Module</Text>
       </TouchableOpacity>
 
