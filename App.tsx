@@ -8,17 +8,25 @@ import {
   Linking,
   Alert,
 } from 'react-native';
-
+import useLiveActivity from './hooks/useLiveActivity';
 const {DynamicIslandModule} = NativeModules;
 
 function App(): React.JSX.Element {
+  const {
+    requestLocationPermission,
+    initNotifiationWidget,
+    updateNotificationWidget,
+    removeNotificationWidget,
+  } = useLiveActivity();
+
   useEffect(() => {
+    requestLocationPermission();
     Linking.getInitialURL().then(url => {
-      Alert.alert('Cold Start', JSON.stringify(url));
+      // Alert.alert('Cold Start', JSON.stringify(url));
     });
 
     const listener = Linking.addEventListener('url', ({url}) => {
-      Alert.alert('Hot Start', JSON.stringify(url));
+      // Alert.alert('Hot Start', JSON.stringify(url));
     });
 
     return () => {
@@ -32,33 +40,25 @@ function App(): React.JSX.Element {
     });
   };
 
-  const onStart = () => {
-    DynamicIslandModule.startNotificationActivity();
-  };
-
-  const onUpdate = () => {
-    DynamicIslandModule.updateNotificationActivity('update from react native!');
-  };
-
-  const onEnd = () => {
-    DynamicIslandModule.endNotificationActivity();
-  };
-
   return (
     <View style={styles.screen}>
       <TouchableOpacity onPress={onTest} style={styles.button}>
         <Text>TEST Swift Module</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onStart} style={styles.button}>
+      <TouchableOpacity onPress={initNotifiationWidget} style={styles.button}>
         <Text>Start Activity</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onUpdate} style={styles.button}>
+      <TouchableOpacity
+        onPress={updateNotificationWidget}
+        style={styles.button}>
         <Text>Update Activity</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onEnd} style={styles.button}>
+      <TouchableOpacity
+        onPress={removeNotificationWidget}
+        style={styles.button}>
         <Text>End Activity</Text>
       </TouchableOpacity>
     </View>
