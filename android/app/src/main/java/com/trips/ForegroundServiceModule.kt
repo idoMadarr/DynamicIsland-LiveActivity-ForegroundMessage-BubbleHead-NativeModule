@@ -7,15 +7,15 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 
-class TripServiceModule(private val reactContext: ReactApplicationContext) :
+class ForegroundServiceModule(private val reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
-    override fun getName() = "TripServiceModule"
+    override fun getName() = "ForegroundServiceModule"
 
     @ReactMethod
-    fun startTripService() {
-        Log.d("TripService", "Foreground Service Started")
-        val intent = Intent(reactContext, TripService::class.java)
+    fun initForegroundService() {
+        Log.d("ForegroundService", "Foreground Service Started")
+        val intent = Intent(reactContext, ForegroundService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             reactContext.startForegroundService(intent)
         } else {
@@ -24,9 +24,9 @@ class TripServiceModule(private val reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
-    fun stopTripService() {
-        Log.d("TripService", "Foreground Service Stopped")
-        val intent = Intent(reactContext, TripService::class.java)
+    fun stopForegroundService() {
+        Log.d("ForegroundService", "Foreground Service Stopped")
+        val intent = Intent(reactContext, ForegroundService::class.java)
         reactContext.stopService(intent)
     }
 }

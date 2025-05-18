@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View,
   Linking,
-  Alert,
+  Platform,
 } from 'react-native';
-import useLiveActivity from './hooks/useLiveActivity';
-const {DynamicIslandModule} = NativeModules;
+import useLiveActivities from './hooks/useLiveActivities';
+const {ForegroundServiceModule} = NativeModules;
 
 function App(): React.JSX.Element {
   const {
@@ -17,7 +17,7 @@ function App(): React.JSX.Element {
     initNotifiationWidget,
     updateNotificationWidget,
     removeNotificationWidget,
-  } = useLiveActivity();
+  } = useLiveActivities();
 
   useEffect(() => {
     requestLocationPermission();
@@ -35,31 +35,33 @@ function App(): React.JSX.Element {
   }, []);
 
   const onTest = () => {
-    DynamicIslandModule.testFunc('ido', 'madarr').then((data: any) => {
-      console.log('Return to JS', data);
-    });
+    if (Platform.OS === 'ios') {
+      ForegroundServiceModule.testFunc('ido', 'madarr').then((data: any) => {
+        console.log('Return to JS', data);
+      });
+    }
   };
 
   return (
     <View style={styles.screen}>
       <TouchableOpacity onPress={onTest} style={styles.button}>
-        <Text>TEST Swift Module</Text>
+        <Text style={styles.text}>TEST Swift Module</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={initNotifiationWidget} style={styles.button}>
-        <Text>Start Activity</Text>
+        <Text style={styles.text}>Start Activity</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={updateNotificationWidget}
         style={styles.button}>
-        <Text>Update Activity</Text>
+        <Text style={styles.text}>Update Activity</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={removeNotificationWidget}
         style={styles.button}>
-        <Text>End Activity</Text>
+        <Text style={styles.text}>End Activity</Text>
       </TouchableOpacity>
     </View>
   );
@@ -78,6 +80,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'green',
+  },
+  text: {
+    color: 'white',
   },
 });
 

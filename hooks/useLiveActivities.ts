@@ -1,17 +1,18 @@
 import {NativeModules, PermissionsAndroid, Platform} from 'react-native';
 
-const {DynamicIslandModule, TripServiceModule} = NativeModules;
+const {DynamicIslandModule, ForegroundServiceModule} = NativeModules;
 
 const isAndroid = () => Platform.OS === 'android';
 
-const useLiveActivity = () => {
+const useLiveActivities = () => {
   const initNotifiationWidget = async () => {
     if (!isAndroid()) {
       // Starting IOS Dynamic Island
       await DynamicIslandModule.startNotificationActivity();
     } else {
       // Starting Foreground Message
-      await TripServiceModule.startTripService();
+      console.log('Hi');
+      await ForegroundServiceModule.initForegroundService();
     }
   };
 
@@ -29,7 +30,7 @@ const useLiveActivity = () => {
       await DynamicIslandModule.endNotificationActivity();
     } else {
       // End Foreground Message
-      await TripServiceModule.stopTripService();
+      await ForegroundServiceModule.stopForegroundService();
     }
   };
 
@@ -64,4 +65,4 @@ const useLiveActivity = () => {
   };
 };
 
-export default useLiveActivity;
+export default useLiveActivities;

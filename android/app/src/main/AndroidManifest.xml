@@ -27,7 +27,7 @@
         </intent-filter>
       </activity>
         <service
-            android:name=".TripService"
+            android:name=".ForegroundService"
             android:exported="false"
             android:foregroundServiceType="location" />
     </application>

@@ -24,7 +24,7 @@ class MainApplication : Application(), ReactApplication {
             PackageList(this).packages.apply {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())
-                add(TripServicePackage())
+                add(ForegroundServicePackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
@@ -40,7 +40,7 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
-      Log.d("TripService", "MainApplication onCreate")
+      Log.d("ForegroundService", "MainApplication onCreate")
 
       createNotificationChannel()
     SoLoader.init(this, OpenSourceMergedSoMapping)
