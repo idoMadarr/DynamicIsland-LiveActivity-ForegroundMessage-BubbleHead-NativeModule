@@ -11,7 +11,6 @@ const useLiveActivities = () => {
       await DynamicIslandModule.startNotificationActivity();
     } else {
       // Starting Foreground Message
-      console.log('Hi');
       await ForegroundServiceModule.initForegroundService();
     }
   };
