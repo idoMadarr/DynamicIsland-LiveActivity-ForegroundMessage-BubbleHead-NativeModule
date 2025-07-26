@@ -13,10 +13,14 @@ const {ForegroundServiceModule} = NativeModules;
 
 function App(): React.JSX.Element {
   const {
+    initDynamicIsland,
+    removeDynamicIsland,
+    initForegroundService,
+    removeForegroundService,
     requestLocationPermission,
-    initNotifiationWidget,
-    updateNotificationWidget,
-    removeNotificationWidget,
+    updateDynamicIsland,
+    initBuubleHead,
+    removeBubbleHead,
   } = useLiveActivities();
 
   useEffect(() => {
@@ -34,34 +38,50 @@ function App(): React.JSX.Element {
     };
   }, []);
 
-  const onTest = () => {
-    if (Platform.OS === 'ios') {
-      ForegroundServiceModule.testFunc('ido', 'madarr').then((data: any) => {
-        console.log('Return to JS', data);
-      });
-    }
-  };
+  // const onTest = () => {
+  //   if (Platform.OS === 'ios') {
+  //     ForegroundServiceModule.testFunc('ido', 'madarr').then((data: any) => {
+  //       console.log('Return to JS', data);
+  //     });
+  //   }
+  // };
 
   return (
     <View style={styles.screen}>
-      <TouchableOpacity onPress={onTest} style={styles.button}>
+      <Text>IOS Native Modules:</Text>
+
+      {/* <TouchableOpacity onPress={onTest} style={styles.button}>
         <Text style={styles.text}>TEST Swift Module</Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity onPress={initDynamicIsland} style={styles.button}>
+        <Text style={styles.text}>Start Dynamic Island + LiveActivity</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={initNotifiationWidget} style={styles.button}>
-        <Text style={styles.text}>Start Activity</Text>
+      <TouchableOpacity onPress={removeDynamicIsland} style={styles.button}>
+        <Text style={styles.text}>Remove Dynamic Island + LiveActivity</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        onPress={updateNotificationWidget}
-        style={styles.button}>
-        <Text style={styles.text}>Update Activity</Text>
+      <TouchableOpacity onPress={updateDynamicIsland} style={styles.button}>
+        <Text style={styles.text}>Update Dynamic Island + LiveActivity</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        onPress={removeNotificationWidget}
-        style={styles.button}>
-        <Text style={styles.text}>End Activity</Text>
+      <Text>Android:</Text>
+
+      <TouchableOpacity onPress={initBuubleHead} style={styles.button}>
+        <Text style={styles.text}>Start Bubble Head</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={removeBubbleHead} style={styles.button}>
+        <Text style={styles.text}>Remove Bubble Head</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={initForegroundService} style={styles.button}>
+        <Text style={styles.text}>Start General Foreground Service</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={removeForegroundService} style={styles.button}>
+        <Text style={styles.text}>Remove General Foreground Service</Text>
       </TouchableOpacity>
     </View>
   );

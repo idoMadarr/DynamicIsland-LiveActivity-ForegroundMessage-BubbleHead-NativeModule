@@ -25,6 +25,8 @@ class MainApplication : Application(), ReactApplication {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())
                 add(ForegroundServicePackage())
+                add(BubbleHeadPackage())
+                add(BubbleOverlayPermissionPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
@@ -43,6 +45,7 @@ class MainApplication : Application(), ReactApplication {
       Log.d("ForegroundService", "MainApplication onCreate")
 
       createNotificationChannel()
+
     SoLoader.init(this, OpenSourceMergedSoMapping)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
@@ -61,5 +64,4 @@ class MainApplication : Application(), ReactApplication {
             manager.createNotificationChannel(channel)
         }
     }
-
 }

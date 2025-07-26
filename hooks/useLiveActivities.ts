@@ -1,35 +1,42 @@
 import {NativeModules, PermissionsAndroid, Platform} from 'react-native';
 
-const {DynamicIslandModule, ForegroundServiceModule} = NativeModules;
+const {
+  DynamicIslandModule,
+  ForegroundServiceModule,
+  BubbleOverlayPermission,
+  BubbleHead,
+} = NativeModules;
 
 const isAndroid = () => Platform.OS === 'android';
 
 const useLiveActivities = () => {
-  const initNotifiationWidget = async () => {
+  const initDynamicIsland = async () => {
     if (!isAndroid()) {
-      // Starting IOS Dynamic Island
       await DynamicIslandModule.startNotificationActivity();
-    } else {
-      // Starting Foreground Message
+    }
+  };
+
+  const removeDynamicIsland = async () => {
+    if (!isAndroid()) {
+      await DynamicIslandModule.endNotificationActivity();
+    }
+  };
+
+  const initForegroundService = async () => {
+    if (isAndroid()) {
       await ForegroundServiceModule.initForegroundService();
     }
   };
 
-  const updateNotificationWidget = async () => {
-    if (!isAndroid()) {
-      await DynamicIslandModule.updateNotificationActivity('updaete from JS');
-    } else {
-      console.log('Update widget on android');
+  const removeForegroundService = async () => {
+    if (isAndroid()) {
+      await ForegroundServiceModule.stopForegroundService();
     }
   };
 
-  const removeNotificationWidget = async () => {
+  const updateDynamicIsland = async () => {
     if (!isAndroid()) {
-      // End Dynamic Island
-      await DynamicIslandModule.endNotificationActivity();
-    } else {
-      // End Foreground Message
-      await ForegroundServiceModule.stopForegroundService();
+      await DynamicIslandModule.updateNotificationActivity('updaete from JS');
     }
   };
 
@@ -56,11 +63,33 @@ const useLiveActivities = () => {
     }
   };
 
+  const initBuubleHead = async () => {
+    if (isAndroid()) {
+      const result = await BubbleOverlayPermission.requestOverlayPermission();
+      if (result) {
+        await BubbleHead.startBubble();
+      }
+    }
+  };
+
+  const removeBubbleHead = async () => {
+    if (isAndroid()) {
+      await BubbleHead.removeBubble();
+    }
+  };
+
   return {
     requestLocationPermission,
-    initNotifiationWidget,
-    updateNotificationWidget,
-    removeNotificationWidget,
+
+    initDynamicIsland,
+    removeDynamicIsland,
+    updateDynamicIsland,
+
+    initForegroundService,
+    removeForegroundService,
+
+    initBuubleHead,
+    removeBubbleHead,
   };
 };
 
